@@ -19,4 +19,4 @@ helpKalendarz.add_field(
     name="!kalendarz fs", value="Wysyła na priv kalendarz Fis Cup",
     inline=True)
 
-helpKalendarz.set_footer(text="SkokoBot by SangreSani(c)")
+helpKalendarz.set_footer(text="SkokoBot by SangreSani")
