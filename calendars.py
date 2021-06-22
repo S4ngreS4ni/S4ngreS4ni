@@ -115,7 +115,9 @@ class Message:
         cal = MainCalendar(self.typeOfCal).make_events_list()
         calendarEmbedsList = []
         calendarEmbed = discord.Embed(
-            title="Kalendarz " + self.typeOfCal.replace('ps', 'PŚ').upper(),
+            title="Kalendarz " + self.typeOfCal.replace('ps', 'PŚ').replace(
+                'letni_coc', 'Letni COC').replace('fis_cup',
+                                                  'FIS Cup').upper(),
             colour=Message.barColour)
         chunk = len(cal) // 8
         index1 = 0
