@@ -118,12 +118,14 @@ class Competition_info(Closest_competition):
                 compTvInfo.append(line)
 
         tvSchedule = []
+        # TODO: Usunąć spację przed elementem compTvInfo
         for i in range(len(compTvChannel)):
-            tvSchedule.append(str(compTvChannel[i] + ': ' + compTvInfo[i]))
+            tvSchedule.append(
+                str('***' + compTvChannel[i] + ':*** ' + compTvInfo[i]))
         return tvSchedule
 
     def count_days_to_next_comp(self):
-        """Tells how many days it is to the next competitionself.
+        """Tells how many days it is to the next competition.
 
         Returns:
             int: Number of days to next competition.
@@ -139,8 +141,10 @@ def create_message():
     nextComp = Competition_info()
     message = discord.Embed(title="Kiedy kolejne skoki?",
                             description="Kolejne skoki " +
-                            globals.compType.replace('ps', 'PŚ').upper(
-                            ) + " odbędą się za " +
+                            globals.compType.replace('ps', 'PŚ').replace(
+                                'letni_coc', 'Letni COC').replace('fis_cup',
+                                                                  'FIS Cup')
+                            .upper() + " odbędą się za " +
                             nextComp.count_days_to_next_comp() + " dni (" +
                             nextComp.show_main_comp_info()['date'] +
                             ").")

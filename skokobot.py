@@ -23,8 +23,8 @@ async def on_message(message):
 
 # KOMENDA !KALENDARZ
     if message.content == '!kalendarz':
-        await message.author.send('Nie podałeś jaki kalendarz wyświetlić.\n',
-                                  embed=help_msg.helpKalendarz)
+        await message.channel.send('*Jaki kalendarz? Majów?\nSkopałeś to. Wpisz \
+!skokobot help by zobaczyć dostępne komendy.*')
 
     if message.content == '!kalendarz lgp':
         calendars.Message.barColour = 15158332  # RED
@@ -64,7 +64,10 @@ async def on_message(message):
 
 # KOMENDA !KIEDYSKOKI
     globals.initialize_comptype()
-    if message.content == '!kiedyskoki lgp':
+    if message.content == '!kiedyskoki':
+        await message.channel.send('*A konkretnie? Jaki event?\nSprawdź \
+dostępne komendy wpisując !skokobot help*')
+    elif message.content == '!kiedyskoki lgp':
         globals.compType = 'lgp'
         import kiedyskoki
         await message.author.send(embed=kiedyskoki.create_message())
@@ -84,5 +87,9 @@ async def on_message(message):
         globals.compType = 'fis_cup'
         import kiedyskoki
         await message.author.send(embed=kiedyskoki.create_message())
+
+# KOMENDA !SKOKOBOT HELP
+    if message.content == '!skokobot help':
+        await message.author.send(embed=help_msg.helpKalendarz)
 
 client.run(credentials.token)
