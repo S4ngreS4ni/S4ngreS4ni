@@ -62,17 +62,9 @@ class Competition_info(Closest_competition):
         super().__init__(calendars.MainCalendar(globals.compType)
                          .make_events_list())
         self.eventUrl = super().fetch_event_url()
-
-    def parse(self):
-        """Parses the code from eventUrl
-
-        Returns:
-            BeautifulSoup: Parsed source code from eventUrl
-        """
-        sourceCode = requests.get(self.eventUrl).text
-        sourceCodeParsed = BeautifulSoup(
-            sourceCode, 'lxml')
-        return sourceCodeParsed
+        self.sourceCode = requests.get(self.eventUrl).text
+        self.sourceCodeParsed = BeautifulSoup(
+            self.sourceCode, 'lxml')
 
     def show_main_comp_info(self):
         """Creates main info about competition in a dictionary form
@@ -80,7 +72,7 @@ class Competition_info(Closest_competition):
         Returns:
             dict: dictionary with competition info
         """
-        infoBox = self.parse().find(class_='info')
+        infoBox = self.sourceCodeParsed.find(class_='info')
 
         compInfo = {
             'eventType': infoBox.div.get_text(),
@@ -96,7 +88,7 @@ class Competition_info(Closest_competition):
         Returns:
             list: List containing competition program.
         """
-        programBox = self.parse().find(
+        programBox = self.sourceCodeParsed.find(
             id='competition_program').get_text()
         compProgram = []
         for item in programBox.replace('\r', '').split('\n'):
@@ -105,12 +97,13 @@ class Competition_info(Closest_competition):
         return compProgram
 
     def show_tv_schedule(self):
-        tvChannels = self.parse().find(id='competition_tv')
+        tvChannels = self.sourceCodeParsed.find(id='competition_tv')
         compTvChannel = []
         for item in tvChannels.find_all('img'):
             compTvChannel.append(item['title'])
 
-        tvProgram = self.parse().find(id='competition_tv').div.get_text()
+        tvProgram = self.sourceCodeParsed.find(
+            id='competition_tv').div.get_text()
         tvProgram = ' '.join(tvProgram.split())
         compTvInfo = []
         for line in tvProgram.split(' LIVE'):
